@@ -1,20 +1,31 @@
 from imdb import IMDb
+
 import numpy as np
+
 from tkinter.scrolledtext import ScrolledText
+
 import tkinter
+
 from tkinter import *
+
 import tkinter as tk
+
 from tkinter import ttk
+
 import io
+
 import base64
+
 from urllib.request import urlopen
+
 import webbrowser
+
 import matplotlib
 matplotlib.use("TkAgg")
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.figure import Figure
 
-year_list = [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018]
+year_list = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020]
 genre_list = ['Action','Adventure','Animation','Comedy','Drama','Family', 'Fantasy', 'Horror','Thriller', 'Romance','Sci-Fi']
 
 ia = IMDb()
@@ -48,17 +59,18 @@ def find_average_rating(rating, year_list):
 
 def getMovieList(full_person, category):
     print("inside movielist")
-    movies = full_person.get("filmography")
-    print(movies)
+    movies = full_person.get('filmography')
     movie_list = []
-    for i in range (len(movies)):
+    for movie in movies:
         for key in movies.keys():
             if 'actress' in  movies.keys():
                 movie_list = movies['actress']
             if(key == category):
                 movie_list = movies[category]
-                    
+            
+            
     return movie_list
+
 
 def getGenreRate(movie_list):
     print("getGenreRate")
@@ -84,6 +96,7 @@ def getAvgGenre(rate):
         if (key in genre_list):
             genre_rate[key] = (str(round(np.mean(values), 2))) 
     return genre_rate
+
 
 def getURL(full_person):
     photo = full_person.get('full-size headshot')
@@ -188,6 +201,7 @@ def getRating(genreList, genre):
                     genreSuccess = genreSuccess + 1
     return([total,success, genreSuccess])
 
+
 def get_genre_movie_list():
     m2 = ia.get_top250_movies()
     genre_movies_all  = {}
@@ -219,7 +233,9 @@ rating,rate = getSuccessRate(full_person,'actor')
 avg_rating,genre_rate = getAverage(rating,rate)
 print(rating)
 
+
 getMoviePrediction("Drama", "Reese witherspoon", "emma stone", "Glenn Ficarra")
+
 
 def callback(event):
    webbrowser.open_new(event.widget.cget("text"))
@@ -289,10 +305,11 @@ def functionHelloCallBack(res):
     toolbar = NavigationToolbar2Tk(canvas1, graph_genre)
     toolbar.update()
     canvas1._tkcanvas.pack()
+
+def helloCallBack():
+    
     print("You clicked the button !")
-    
-    
-        
+            
     if len(entry.get()) == 0:
         print("sorry")
         lbl1.configure(text=" ")
@@ -309,23 +326,13 @@ def functionHelloCallBack(res):
             lbl.configure(text="please enter a name without numbers and special character")
             print("sorry")
             
-    
-    
-    #image_url = "http://i46.tinypic.com/r9oh0j.gif"
-    #image_byt = urlopen(image_url).read()
-    #image_b64 = base64.encodebytes(image_byt)
-    #photo = tk.PhotoImage(data=image_b64)
-    
-    #cv = tk.Canvas(top,bg='black')
-   
-    #cv.create_image(10, 10, image=photo, anchor='nw')
-    #cv.pack(side='top', fill='both', expand='yes')
 
 def count():
     a=10
     b=90
     
     return a
+
 
 def movie_Predict():
     actor1 = entry4.get()
@@ -365,62 +372,23 @@ def movie_Predict():
         toolbar = NavigationToolbar2Tk(canvas1, pie_success)
         toolbar.update()
         canvas1._tkcanvas.pack()
-        #root.destroy()
     else:
-        # the mandatory field is empty
         print("mandatory data missing")
         if (len(entry4.get())==0):
             lbl7.configure(text="Please enter actor1..")
         else:
             lbl7.configure(text="Please enter directors..")
             
-def helloCallBack():
-    
-    print("You clicked the button !")
-    
-    
-        
-    if len(entry.get()) == 0:
-        print("sorry")
-        lbl1.configure(text=" ")
-        lbl2.configure(text=" ")
-        lbl.configure(text="please enter a name")
-    else:
-        print("here")
-        res =  entry.get()
-        print(res)
-        var = res.replace(" ", "")
-        if(var.isalpha()):
-            functionHelloCallBack(res)
-        else:
-            lbl.configure(text="please enter a name without numbers and special character")
-            print("sorry")
-            
-    
-    
-    #image_url = "http://i46.tinypic.com/r9oh0j.gif"
-    #image_byt = urlopen(image_url).read()
-    #image_b64 = base64.encodebytes(image_byt)
-    #photo = tk.PhotoImage(data=image_b64)
-    
-    #cv = tk.Canvas(top,bg='black')
-   
-    #cv.create_image(10, 10, image=photo, anchor='nw')
-    #cv.pack(side='top', fill='both', expand='yes')         
-    
+
 top = tkinter.Tk()
-top.title('Movie success prediction ')
+top.title('MOVIE PREDICTION')
 top.geometry("500x300")
 top.configure(bg="black")
+
 
 var = StringVar()
 label = Label( top, textvariable=var, relief=RAISED )
 var.set("SOCIAL MEDIA AND DATA MINING")
-label.pack()
-
-var = StringVar()
-label = Label( top, textvariable=var, relief=RAISED )
-var.set("ANALYSING SUCCESS RATE OF AN ACTOR")
 label.pack()
 
 nb = ttk.Notebook(top)
@@ -428,16 +396,12 @@ nb = ttk.Notebook(top)
 page1 = Frame(nb)
 page2 = ttk.Frame(nb)
 
-#frame = Frame(top, width=200, height=200,bg="blue")
-#frame.pack()
-
-#text = ScrolledText(page1)
-#text.pack(expand=1, fill="both")
 label = Label(page1, text="Please enter name")
 label.pack()
 
 entry = Entry(page1, bd =5)
 entry.pack()
+
 
 B = tkinter.Button(page1, text ="ANALYSE", command = helloCallBack)
 B.pack()
@@ -454,7 +418,6 @@ lbl2 = Label(page1,text="")
 lbl2.pack()
 lbl2.bind("<Button-1>", callback)
 
-# PAGE TWO STARTS.
 
 lbl5 = Label(page2,text="Genre*")
 lbl5.pack()
@@ -462,13 +425,10 @@ OPTIONS = [
 'Action','Adventure','Animation','Comedy','Drama','Family', 'Fantasy', 'Horror','Thriller', 'Romance','Sci-Fi'
 ] 
 variable = StringVar(page2)
-variable.set(OPTIONS[0]) # default value
+variable.set(OPTIONS[0]) 
 
 w = OptionMenu(page2, variable, *OPTIONS)
 w.pack()
-
-#entry3 = Entry(page2, bd =5)
-#entry3.pack()
 
 lbl4 = Label(page2,text="Actor1*")
 lbl4.pack()
@@ -496,3 +456,4 @@ nb.add(page2, text='Movie_success_prediction')
 nb.pack(expand=1, fill="both")
 
 top.mainloop()
+
